@@ -20,25 +20,56 @@ function getPlaywright() {
   return pw;
 }
 
-// Known system browser paths (Windows)
+// Known system browser paths by platform.
 const SYSTEM_PATHS = {
-  chrome: [
-    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
-    path.join(process.env.LOCALAPPDATA || '', 'Google\\Chrome\\Application\\chrome.exe'),
-  ],
-  msedge: [
-    'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
-    'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
-  ],
-  firefox: [
-    'C:\\Program Files\\Mozilla Firefox\\firefox.exe',
-    'C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe',
-  ],
+  win32: {
+    chrome: [
+      'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+      'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+      path.join(process.env.LOCALAPPDATA || '', 'Google\\Chrome\\Application\\chrome.exe'),
+    ],
+    msedge: [
+      'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+      'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+    ],
+    firefox: [
+      'C:\\Program Files\\Mozilla Firefox\\firefox.exe',
+      'C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe',
+    ],
+  },
+  darwin: {
+    chrome: [
+      '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+      path.join(process.env.HOME || '', 'Applications', 'Google Chrome.app', 'Contents', 'MacOS', 'Google Chrome'),
+    ],
+    msedge: [
+      '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+      path.join(process.env.HOME || '', 'Applications', 'Microsoft Edge.app', 'Contents', 'MacOS', 'Microsoft Edge'),
+    ],
+    firefox: [
+      '/Applications/Firefox.app/Contents/MacOS/firefox',
+      path.join(process.env.HOME || '', 'Applications', 'Firefox.app', 'Contents', 'MacOS', 'firefox'),
+    ],
+  },
+  linux: {
+    chrome: [
+      '/usr/bin/google-chrome',
+      '/usr/bin/google-chrome-stable',
+      '/snap/bin/chromium',
+    ],
+    msedge: [
+      '/usr/bin/microsoft-edge',
+      '/usr/bin/microsoft-edge-stable',
+    ],
+    firefox: [
+      '/usr/bin/firefox',
+    ],
+  },
 };
 
 function findSystemBrowser(type) {
-  const paths = SYSTEM_PATHS[type] || [];
+  const byPlatform = SYSTEM_PATHS[process.platform] || {};
+  const paths = byPlatform[type] || [];
   return paths.find(p => fs.existsSync(p)) || null;
 }
 

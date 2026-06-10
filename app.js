@@ -347,14 +347,18 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(BASE_DIR, 'public', 'index.html'));
 });
 
-// Open the UI in a Chromium app window (Chrome/Edge) so it always runs in a
-// consistent engine regardless of the user's default browser — a Firefox default
-// previously broke the UI — and it feels like a real app window (no tabs/address bar).
+// Open the UI in a Chromium app window (Chrome/Edge) when one is available so
+// it runs in a consistent engine regardless of the user's default browser and
+// feels like a real app window (no tabs/address bar).
 function openUI(url) {
   try {
     const exe = browserMgr.findSystemBrowser('chrome') || browserMgr.findSystemBrowser('msedge');
-    if (exe && process.platform === 'win32') {
-      spawn(exe, [`--app=${url}`, '--no-first-run', '--no-default-browser-check'], { detached: true, stdio: 'ignore' }).unref();
+    if (exe) {
+      spawn(exe, [`--app=${url}`, '--no-first-run', '--no-default-browser-check'], {
+        detached: true,
+        stdio: 'ignore',
+        windowsHide: process.platform === 'win32',
+      }).unref();
       return;
     }
   } catch {}

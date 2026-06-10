@@ -4,7 +4,7 @@ SnagTrack is a desktop-style local web app for collecting DJ free downloads from
 
 It runs a local server, opens a browser UI at `http://127.0.0.1:7766`, and automates the download flow using a mix of direct HTTP requests and a saved browser session for follow / like gates.
 
-The current packaged release targets Windows. A macOS version is in development.
+The current packaged release targets Windows. A macOS version is in development, and the first-pass Mac scripts live in [`macos/`](macos).
 
 ## What it does
 
@@ -125,6 +125,7 @@ https://hypeddit.com/music
 ```text
 SnagTrack/
   app.js               Local server + WebSocket entrypoint
+  macos/               First-pass macOS run and build scripts
   public/              Browser UI
   src/                 Download, browser, config, resolver, and tagging logic
   build.sh             Windows distro staging script
@@ -157,6 +158,30 @@ Output:
 ```text
 dist/SnagTrack-Setup.exe
 ```
+
+## macOS work in progress
+
+The repo now includes a first-pass Mac workspace in [`macos/`](macos):
+
+- `macos/run-dev.sh`: runs SnagTrack from source on macOS
+- `macos/SnagTrack.command`: double-clickable launcher for a local checkout
+- `macos/build-app.sh`: creates an unsigned `.app` bundle in `build-macos/`
+- `macos/ABSOLUTE-GUIDE.md`: exact Mac setup and run steps
+
+Typical Mac flow:
+
+```bash
+./macos/run-dev.sh
+```
+
+Or build the app bundle:
+
+```bash
+./macos/build-app.sh
+open build-macos/SnagTrack.app
+```
+
+The Mac app path is still in development, so signing, notarization, and broader machine testing are not finished yet.
 
 ## Notes
 
