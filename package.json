@@ -1,0 +1,21 @@
+{
+  "name": "snagtrack",
+  "version": "2.0.0",
+  "description": "SnagTrack — DJ free-download grabber with SoundCloud link resolving and cover-art tagging",
+  "author": "Karl Krusel (@karlkrusel)",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "install-browsers": "npx playwright install chromium firefox webkit"
+  },
+  "dependencies": {
+    "axios": "^1.6.5",
+    "cheerio": "^1.0.0-rc.12",
+    "express": "^4.18.2",
+    "node-id3": "^0.2.9",
+    "playwright": "^1.40.0",
+    "ws": "^8.16.0"
+  }
+}

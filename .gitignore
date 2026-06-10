@@ -1,0 +1,15 @@
+node_modules/
+build/
+dist/
+logs/
+browser-profile/
+
+config.json
+session.json
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+.DS_Store
+Thumbs.db

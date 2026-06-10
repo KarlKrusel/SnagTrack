@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<!--
+  SnagTrack — Made by Karl Krusel — @karlkrusel on all platforms
+  Copyright (c) 2026 Karl Krusel. All rights reserved.
+  Proprietary software. Unauthorized copying, redistribution, or resale is prohibited.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SnagTrack</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Header ─────────────────────────────────────────────────────── -->
+  <header class="header">
+    <div class="header-logo">
+      <svg viewBox="0 0 64 64" fill="none"><g fill="currentColor"><rect x="4" y="27" width="5" height="10" rx="2.5"/><rect x="12" y="23" width="5" height="18" rx="2.5"/><rect x="20" y="18" width="5" height="28" rx="2.5"/><rect x="28" y="14" width="5" height="36" rx="2.5"/></g><circle cx="50" cy="13" r="3.6" stroke="currentColor" stroke-width="3.4"/><path d="M50 17 V35 A8 8 0 1 1 34 35" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"/><path d="M34 35 l7 -1.5 -3.5 6 z" fill="currentColor"/></svg>
+    </div>
+    <div class="header-title">Snag<b>Track</b></div>
+    <div class="header-sub">v2.0</div>
+    <div class="header-spacer"></div>
+    <div class="status-pill idle" id="status-pill">
+      <div class="status-dot"></div>
+      <span id="status-text">Idle</span>
+    </div>
+  </header>
+
+  <!-- ── Sidebar ────────────────────────────────────────────────────── -->
+  <nav class="sidebar">
+    <div class="nav-item active" data-panel="downloads">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg></span> Downloads
+    </div>
+    <div class="nav-item" data-panel="queue">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg></span> Queue
+    </div>
+    <div class="nav-item" data-panel="charts">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="10" width="3" height="7" rx="1"/><rect x="12" y="6" width="3" height="11" rx="1"/><rect x="17" y="13" width="3" height="4" rx="1"/></svg></span> Charts
+    </div>
+    <div class="nav-item" data-panel="settings">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/><line x1="2" x2="6" y1="14" y2="14"/><line x1="10" x2="14" y1="8" y2="8"/><line x1="18" x2="22" y1="16" y2="16"/></svg></span> Settings
+    </div>
+    <div class="nav-item" data-panel="guide">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span> Guide
+    </div>
+    <div class="nav-item" data-panel="logs">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="m7 9 3 3-3 3"/><path d="M13 15h4"/></svg></span> Logs
+    </div>
+
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-meta" id="sidebar-meta">
+      Mode: <span id="meta-mode">—</span><br>
+      Dir: <span id="meta-dir" title="">—</span>
+    </div>
+    <div class="sidebar-credit">Made by <b>Karl Krusel</b><br><a href="https://www.instagram.com/karlkrusel/" target="_blank" rel="noopener noreferrer">@karlkrusel</a></div>
+  </nav>
+
+  <!-- ── Main area ──────────────────────────────────────────────────── -->
+  <main class="main">
+
+    <!-- Downloads panel -->
+    <div class="panel active" id="panel-downloads">
+      <div class="panel-title">
+        <span class="panel-title-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg></span> Start Downloads
+      </div>
+
+      <div class="card">
+        <div class="card-title">Track IDs / URLs</div>
+        <textarea id="input-links" rows="7"
+          placeholder="Paste Hypeddit OR SoundCloud links — one per line&#10;&#10;Examples:&#10;  https://soundcloud.com/artist/track-name&#10;  https://hypeddit.com/track/67890&#10;  https://hypeddit.com/music  (chart)"></textarea>
+        <div class="form-hint" style="margin-top:8px">
+          Paste a <b style="color:var(--accent2)">SoundCloud track link</b> and it finds the Hypeddit free-download gate automatically — or use Hypeddit track / chart URLs directly.
+        </div>
+        <div class="btn-group" style="margin-top:14px">
+          <button class="btn btn-primary" id="btn-start">▶ Start Downloads</button>
+          <button class="btn btn-danger" id="btn-cancel" disabled>■ Stop</button>
+          <button class="btn btn-sm" id="btn-clear-input">Clear</button>
+          <div class="spacer"></div>
+          <button class="btn btn-sm" id="btn-open-folder">Open Folder</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row" id="stats-row">
+        <div class="stat-box total">
+          <div class="stat-num" id="stat-total">0</div>
+          <div class="stat-label">Total</div>
+        </div>
+        <div class="stat-box active">
+          <div class="stat-num" id="stat-done">0</div>
+          <div class="stat-label">Done</div>
+        </div>
+        <div class="stat-box ok">
+          <div class="stat-num" id="stat-ok">0</div>
+          <div class="stat-label">Success</div>
+        </div>
+        <div class="stat-box fail">
+          <div class="stat-num" id="stat-fail">0</div>
+          <div class="stat-label">Failed</div>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="card batch-progress-wrap" id="progress-wrap" style="display:none">
+        <div class="batch-progress-label">
+          <span id="progress-label">Processing...</span>
+          <span id="progress-pct">0%</span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+        <div style="margin-top:10px; font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--text-muted)">
+          Current: <span id="current-track-id" class="mono" style="color:var(--accent2)">—</span>
+          &nbsp;›&nbsp; <span id="current-track-step" style="color:var(--text)">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Guide panel -->
+    <div class="panel" id="panel-guide">
+      <div class="panel-title">
+        <span class="panel-title-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span> Setup Guide
+      </div>
+
+      <div class="card" style="border-left:3px solid var(--accent)">
+        <div class="card-title">Read me first — one-time setup</div>
+        <div class="guide-intro">
+          Most free downloads are locked behind a <b>follow / like gate</b> (usually on Hypeddit). SnagTrack
+          completes those gates automatically <b>using your own SoundCloud / Spotify account</b>, so you have to
+          sign in once. The whole setup takes about 2 minutes — do it before your first download.
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-num">1</div>
+        <div class="guide-body">
+          <div class="guide-h">Enter your details</div>
+          <div class="guide-p">Open <b>Settings → Identity</b> and fill in your <b>email</b> and <b>name</b>. These auto-fill email-only download gates.</div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-num">2</div>
+        <div class="guide-body">
+          <div class="guide-h">Choose your download folder</div>
+          <div class="guide-p">In <b>Settings → Download Location</b>, click <b>Browse…</b> and pick where your tracks should be saved.</div>
+        </div>
+      </div>
+
+      <div class="guide-step" style="border-color:rgba(255,106,0,.4)">
+        <div class="guide-num">3</div>
+        <div class="guide-body">
+          <div class="guide-h">Sign in to your accounts <span class="guide-tag">most important</span></div>
+          <div class="guide-p">
+            This is the "cookies" step — it saves your logins so the gates can be completed as you.
+            <ol class="guide-ol">
+              <li>Go to <b>Settings → Login Session</b> and click <b>Open Login Browser</b>. A normal Chrome window opens on SnagTrack's own profile.</li>
+              <li>In that window, sign in to <b>SoundCloud</b> (required for most gates), and <b>Spotify</b> + <b>Hypeddit</b> if you want those too.</li>
+              <li><b>Close that Chrome window</b> when you're done logging in.</li>
+              <li>Back in SnagTrack, click <b>Save Session</b>. Your logins are now remembered between runs.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-num">4</div>
+        <div class="guide-body">
+          <div class="guide-h">Pick your download mode</div>
+          <div class="guide-p">In <b>Settings → Download Strategy</b>, leave it on <b>Hybrid</b> (recommended): email gates stay instant and browserless, while social gates quietly reuse your saved login in the background.</div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-num">5</div>
+        <div class="guide-body">
+          <div class="guide-h">Start downloading</div>
+          <div class="guide-p">Go to the <b>Downloads</b> tab, paste <b>SoundCloud or Hypeddit links</b> (one per line — or a whole chart/playlist), and hit <b>Start Downloads</b>. Tracks land in your folder with cover art embedded.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Troubleshooting</div>
+        <ul class="guide-faq">
+          <li><b>"Close the login browser before starting"</b> — the login Chrome window from step 3 is still open. Close it, then download.</li>
+          <li><b>Downloads suddenly stop working</b> — your SoundCloud/Spotify session likely expired. Just redo step 3 (Open Login Browser → sign in → Save Session).</li>
+          <li><b>No cover art on a track</b> — only mp3 and wav get embedded art, and only when the file has none already. Toggle it in <b>Settings → Cover Art</b>.</li>
+          <li><b>A SoundCloud link finds nothing</b> — that track has no Hypeddit free-download gate (some artists use other services). SnagTrack will say so in the Logs.</li>
+          <li>The download browser runs <b>hidden</b> in the background — you don't need to watch it.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Queue panel -->
+    <div class="panel" id="panel-queue">
+      <div class="panel-title">
+        <span class="panel-title-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg></span> Download Queue
+      </div>
+      <div class="card" style="flex:1; display:flex; flex-direction:column">
+        <div class="card-title" style="margin-bottom:8px">
+          Track History
+          <span class="spacer"></span>
+          <button class="btn btn-sm" id="btn-clear-queue">Clear</button>
+        </div>
+        <div class="queue-list" id="queue-list">
+          <div class="empty-state">
+            <div class="empty-state-icon">▤</div>
+            No downloads yet. Start from the Downloads tab.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts panel -->
+    <div class="panel" id="panel-charts">
+      <div class="panel-title">
+        <span class="panel-title-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="10" width="3" height="7" rx="1"/><rect x="12" y="6" width="3" height="11" rx="1"/><rect x="17" y="13" width="3" height="4" rx="1"/></svg></span> Browse Charts
+      </div>
+
+      <div class="card">
+        <div class="card-title">Top Hypeddit Charts</div>
+        <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:12px" id="chart-shortcuts">
+          <!-- Populated by JS -->
+        </div>
+        <div class="form-hint">Click a chart to load its tracks into the download queue</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Custom Chart / Playlist URL</div>
+        <div class="form-group">
+          <label>Hypeddit chart or playlist URL</label>
+          <input type="text" id="chart-url-input" placeholder="https://hypeddit.com/music">
+        </div>
+        <div class="btn-group" style="margin-top:10px">
+          <button class="btn btn-primary" id="btn-load-chart">Load Chart Tracks</button>
+        </div>
+        <div class="card batch-progress-wrap chart-progress-wrap" id="chart-progress-wrap" style="display:none; margin-top:12px; padding:12px 14px">
+          <div class="batch-progress-label">
+            <span id="chart-progress-label">Loading chart...</span>
+            <span id="chart-progress-pct">...</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill indeterminate" id="chart-progress-fill"></div>
+          </div>
+          <div class="chart-progress-meta">
+            <span id="chart-progress-target" class="mono">Chart</span>
+            <span id="chart-progress-found">0 found</span>
+          </div>
+        </div>
+        <div id="chart-preview" style="margin-top:12px; display:none">
+          <div class="card-title">Preview — <span id="chart-preview-count">0</span> tracks</div>
+          <div style="max-height:180px; overflow-y:auto; font-family:var(--mono); font-size:12px; color:var(--text-muted)" id="chart-preview-list"></div>
+          <div class="btn-group" style="margin-top:10px">
+            <button class="btn btn-success" id="btn-queue-chart">▶ Download These Tracks</button>
+            <button class="btn btn-sm" id="btn-copy-chart">Copy to Input</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings panel -->
+    <div class="panel" id="panel-settings">
+      <div class="panel-title">
+        <span class="panel-title-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/><line x1="2" x2="6" y1="14" y2="14"/><line x1="10" x2="14" y1="8" y2="8"/><line x1="18" x2="22" y1="16" y2="16"/></svg></span> Settings
+      </div>
+
+      <div class="card">
+        <div class="card-title">Identity</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="cfg-email" placeholder="you@example.com">
+          </div>
+          <div class="form-group">
+            <label>Display Name</label>
+            <input type="text" id="cfg-name" placeholder="Your name">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Download Location</div>
+        <div class="form-group">
+          <label>Download Directory</label>
+          <div style="display:flex; gap:8px; align-items:stretch">
+            <input type="text" id="cfg-download-dir" placeholder="Click Browse to choose a folder" style="flex:1">
+            <button class="btn btn-sm" id="btn-browse-download-dir" type="button" style="white-space:nowrap">Browse…</button>
+          </div>
+          <div class="form-hint">Files will be saved to this folder</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Login Session</div>
+        <div class="form-hint" style="margin-bottom:12px">
+          For SoundCloud and Spotify gates, open the login browser once, sign in there, then save the session.
+          Email-only gates can still run without a browser when Hybrid mode is enabled.
+        </div>
+        <div class="delay-grid">
+          <div class="form-group">
+            <label>Session Status</label>
+            <div class="form-hint" id="session-status-text">No saved session yet</div>
+          </div>
+          <div class="form-group">
+            <label>Last Saved</label>
+            <div class="form-hint" id="session-saved-at">Never</div>
+          </div>
+          <div class="form-group" style="grid-column:1/-1">
+            <label>Browser Profile</label>
+            <input type="text" id="cfg-profile-dir" placeholder="C:\Users\...\SnagTrack\browser-profile">
+            <div class="form-hint">This folder keeps your real browser login between runs.</div>
+          </div>
+        </div>
+        <div class="btn-group" style="margin-top:12px">
+          <button class="btn btn-primary" id="btn-open-session-setup">Open Login Browser</button>
+          <button class="btn" id="btn-save-session">Save Session</button>
+          <button class="btn btn-sm" id="btn-close-session-browser">Close Browser</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Download Strategy</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Download Mode</label>
+            <select id="cfg-download-mode">
+              <option value="hybrid">Hybrid (direct HTTP first, browser when needed)</option>
+              <option value="browser">Browser only (best coverage)</option>
+              <option value="direct">Direct HTTP only (email gates only)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Browser Engine</label>
+            <select id="cfg-browser-engine">
+              <option value="auto">Auto (best available browser)</option>
+              <option value="chrome">System Chrome</option>
+              <option value="msedge">System Edge</option>
+              <option value="chromium">Playwright Chromium</option>
+              <option value="firefox">Firefox</option>
+              <option value="webkit">WebKit / Safari</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Browser visibility during downloads</label>
+          <select id="cfg-headless-downloads">
+            <option value="false">Visible (most reliable for social gates)</option>
+            <option value="true">Background / headless (quieter, but less reliable)</option>
+          </select>
+          <div class="form-hint">
+            Hybrid mode gives you the closest thing to "all in program":
+            email-only songs stay browserless, and social gates reuse your saved session.
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Cover Art</label>
+          <select id="cfg-cover-art">
+            <option value="true">Embed SoundCloud cover art when missing (mp3 / wav)</option>
+            <option value="false">Off — leave files untagged</option>
+          </select>
+          <div class="form-hint">
+            After each download, if the file has no embedded artwork, the track's
+            SoundCloud cover is fetched and written in (webp is converted to JPEG).
+          </div>
+        </div>
+
+        <div class="card-title" style="margin-top:16px">Available Browsers</div>
+        <div class="browser-grid" id="browser-grid">
+          <div class="text-dim" style="grid-column:1/-1; font-size:12px">Click "Detect" to check availability</div>
+        </div>
+        <button class="btn btn-sm" style="margin-top:8px" id="btn-detect-browsers">Detect Installed Browsers</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Timing Delays (ms)</div>
+        <div class="delay-grid">
+          <div class="form-group">
+            <label>Page Load</label>
+            <input type="number" id="delay-pageLoad" min="0" step="100">
+          </div>
+          <div class="form-group">
+            <label>After Gate Open</label>
+            <input type="number" id="delay-afterGateOpen" min="0" step="100">
+          </div>
+          <div class="form-group">
+            <label>After Email Step</label>
+            <input type="number" id="delay-afterEmailStep" min="0" step="100">
+          </div>
+          <div class="form-group">
+            <label>After SC Popup</label>
+            <input type="number" id="delay-afterScPopup" min="0" step="1000">
+          </div>
+          <div class="form-group">
+            <label>SC Popup Timeout</label>
+            <input type="number" id="delay-scPopupTimeout" min="0" step="1000">
+          </div>
+          <div class="form-group">
+            <label>SP Popup Timeout</label>
+            <input type="number" id="delay-spPopupTimeout" min="0" step="1000">
+          </div>
+          <div class="form-group">
+            <label>Between Tracks</label>
+            <input type="number" id="delay-betweenTracks" min="0" step="100">
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" id="btn-save-settings">Save Settings</button>
+        <button class="btn" id="btn-reset-delays">Reset Delays</button>
+      </div>
+    </div>
+
+    <!-- Logs panel -->
+    <div class="panel" id="panel-logs">
+      <div class="panel-title">
+        <span class="panel-title-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="m7 9 3 3-3 3"/><path d="M13 15h4"/></svg></span> Live Logs
+      </div>
+
+      <div class="log-toolbar">
+        <div class="log-filter-group">
+          <button class="log-filter-btn active" data-level="ALL">ALL</button>
+          <button class="log-filter-btn" data-level="DEBUG">DEBUG</button>
+          <button class="log-filter-btn" data-level="INFO">INFO</button>
+          <button class="log-filter-btn" data-level="SUCCESS">OK</button>
+          <button class="log-filter-btn" data-level="WARN">WARN</button>
+          <button class="log-filter-btn" data-level="ERROR">ERROR</button>
+        </div>
+        <div class="log-search">
+          <input type="text" id="log-search" placeholder="Search logs...">
+        </div>
+        <label class="log-auto-scroll">
+          <input type="checkbox" id="log-autoscroll" checked>
+          Auto-scroll
+        </label>
+        <div class="spacer"></div>
+        <button class="btn btn-sm" id="btn-open-logs-folder">Log Files</button>
+        <button class="btn btn-sm btn-danger" id="btn-clear-logs">Clear</button>
+      </div>
+
+      <div class="log-container" id="log-container"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Welcome modal -->
+<div id="welcome-overlay" class="modal-overlay" style="display:none">
+  <div class="modal-card">
+    <div class="modal-logo">
+      <svg viewBox="0 0 64 64" fill="none"><g fill="currentColor"><rect x="4" y="27" width="5" height="10" rx="2.5"/><rect x="12" y="23" width="5" height="18" rx="2.5"/><rect x="20" y="18" width="5" height="28" rx="2.5"/><rect x="28" y="14" width="5" height="36" rx="2.5"/></g><circle cx="50" cy="13" r="3.6" stroke="currentColor" stroke-width="3.4"/><path d="M50 17 V35 A8 8 0 1 1 34 35" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"/><path d="M34 35 l7 -1.5 -3.5 6 z" fill="currentColor"/></svg>
+    </div>
+    <h2 class="modal-title">Thanks for downloading <span>SnagTrack</span></h2>
+    <p class="modal-text">Follow me on Instagram for more updates &amp; tools.</p>
+    <a class="btn btn-primary modal-ig" href="https://www.instagram.com/karlkrusel/" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      @karlkrusel
+    </a>
+    <button class="btn modal-close" id="welcome-close" type="button">Start digging :)
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

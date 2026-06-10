@@ -1,0 +1,32 @@
+SnagTrack — End User License Agreement
+Copyright (c) 2026 Karl Krusel (@karlkrusel on all platforms).
+All rights reserved.
+
+1. OWNERSHIP
+   SnagTrack and all of its code, design, artwork, and assets are the exclusive
+   property of Karl Krusel. This is proprietary software, not open source.
+
+2. LICENSE GRANT
+   You are granted a personal, non-exclusive, non-transferable license to install
+   and use SnagTrack for your own personal use only.
+
+3. RESTRICTIONS — You may NOT:
+   - copy, reproduce, or redistribute SnagTrack or any part of it;
+   - sell, rent, lease, sublicense, or otherwise commercialize it;
+   - decompile, reverse-engineer, deobfuscate, or attempt to extract its source;
+   - modify, rebrand, or remove any author, copyright, or attribution notices
+     (including the "Made by Karl Krusel / @karlkrusel" credit);
+   - pass the software off as your own or distribute it under another name.
+
+4. ATTRIBUTION
+   The "Made by Karl Krusel — @karlkrusel" credit must remain intact and visible.
+
+5. NO WARRANTY
+   The software is provided "AS IS", without warranty of any kind. The author is
+   not liable for any damages arising from its use. You are responsible for how
+   you use it and for complying with the terms of any third-party service.
+
+6. TERMINATION
+   This license terminates automatically if you breach any of these terms.
+
+Contact: @karlkrusel
