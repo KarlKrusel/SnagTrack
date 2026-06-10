@@ -4,6 +4,8 @@ SnagTrack is a desktop-style local web app for collecting DJ free downloads from
 
 It runs a local server, opens a browser UI at `http://127.0.0.1:7766`, and automates the download flow using a mix of direct HTTP requests and a saved browser session for follow / like gates.
 
+The current packaged release targets Windows. A macOS version is in development.
+
 ## What it does
 
 - Accepts SoundCloud track URLs, Hypeddit track URLs, and Hypeddit chart / playlist URLs
